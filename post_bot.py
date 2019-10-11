@@ -8,6 +8,7 @@ import json
 class Post_Bot():
 
     def __init__(self):
+        print('Starting up... PostLockBot/V1 by ScoopJr')
         CONFIG = ConfigParser()
         CONFIG.read('config.ini')
         self.user = CONFIG.get('main', 'USER')
@@ -17,10 +18,12 @@ class Post_Bot():
         self.timelimit = timedelta(hours=int(CONFIG.get('main', 'TIMELIMIT')))
         self.subreddit = CONFIG.get('main', 'SUBREDDIT')
         self.token_url = "https://www.reddit.com/api/v1/access_token"
+        self.reply = CONFIG.get('main', 'REPLY')
         self.token = ""
         self.t_type = ""
         self.user_agent = "'PostLockBot/V1 by ScoopJr'"
         self.check_timer = datetime.utcnow()
+        self.com = False
 
     def get_token(self):
         client_auth = requests.auth.HTTPBasicAuth(self.client, self.secret)
@@ -39,12 +42,33 @@ class Post_Bot():
                              username=self.user)
 
         for post in reddit.subreddit(self.subreddit).new():
-            print(post.url, post.created_utc, post.name, post.id)
             post_time = datetime.utcfromtimestamp(int(post.created_utc)).strftime('%Y-%m-%d %H:%M:%S')
             post_time = datetime.strptime(post_time,'%Y-%m-%d %H:%M:%S')
             submission = reddit.submission(id=post.id)
-            if (self.check_timer - post_time) > self.timelimit and not submission.archived:
-                submission.mod.lock()
+            if (((self.check_timer - post_time) > self.timelimit) and (not submission.archived)):
+                if submission.locked:
+                    self.com = False
+                    for comments in submission.comments:
+                        if (comments.body == self.reply) & (comments.author == self.user):
+                            self.com = True
+                            break
+                    if not self.com:
+                        submission.mod.unlock()
+                        submission.reply(self.reply)
+                        submission.mod.lock()
+                elif not submission.locked:
+                    self.com = False
+                    for comments in submission.comments:
+                        if (comments.body == self.reply) & (comments.author == self.user):
+                            self.com = True
+                            break
+                    if self.com:
+                        submission.mod.lock()
+                    else:
+                        submission.reply(self.reply)
+                        submission.mod.lock()
+                        continue
+        print('Finished locking posts that meet criteria.')
 
 
 
