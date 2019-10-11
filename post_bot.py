@@ -8,7 +8,7 @@ import json
 class Post_Bot():
 
     def __init__(self):
-        print('Starting up... PostLockBot/V1 by ScoopJr')
+        print('Starting up...', self.user_agent)
         CONFIG = ConfigParser()
         CONFIG.read('config.ini')
         self.user = CONFIG.get('main', 'USER')
@@ -21,7 +21,7 @@ class Post_Bot():
         self.reply = CONFIG.get('main', 'REPLY')
         self.token = ""
         self.t_type = ""
-        self.user_agent = "'PostLockBot/V1 by ScoopJr'"
+        self.user_agent = "'PostLockBot/V1.1 by ScoopJr'"
         self.check_timer = datetime.utcnow()
         self.com = False
 
