@@ -14,6 +14,7 @@ SECRET= secret_key
 DATE=hours
 TIMELIMIT= 1
 SUBREDDIT= subreddit
+REPLY=This round is now over
 ```
 
 3. Hit file and select save.
