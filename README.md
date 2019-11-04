@@ -11,10 +11,9 @@ USER = username
 PASSWORD= password
 CLIENT_ID= client_id
 SECRET= secret_key
-DATE=hours
 TIMELIMIT= 1
 SUBREDDIT= subreddit
-REPLY=your custom reply
+FLAIR_ID flair-template-id
 ```
 
 3. Hit file and select save.
