@@ -7,7 +7,7 @@ import requests, requests.auth
 class Post_Bot():
 
     def __init__(self):
-        self.user_agent = "'PostLockBot- EDIT FOR r/eFreebies//V1.0 by ScoopJr'"
+        self.user_agent = "'PostLockBot- EDIT FOR r/eFreebies//V1.01 by ScoopJr'"
         print('Starting up...', self.user_agent)
         CONFIG = ConfigParser()
         CONFIG.read('config.ini')
@@ -44,13 +44,13 @@ class Post_Bot():
         for post in self.reddit.subreddit(self.subreddit).new(limit=1000):
             post_time = datetime.utcfromtimestamp(int(post.created_utc)).strftime('%Y-%m-%d %H:%M:%S')
             post_time = datetime.strptime(post_time, '%Y-%m-%d %H:%M:%S')
-            self.subs[post.id] = {'created': post_time, 'archived': post.archived, 'locked': post.locked}
+            self.subs[post.id] = {'created': post_time, 'archived': post.archived, 'locked': post.locked, 'flair_id': post.link_flair_template_id}
         return self.subs
 
     def return_subs(self, subs):
         """Takes a list with a datetime object under 'created' and compares it to datetime.utcnow() and the timedelta of 1 week and returns a new list of that comparison."""
         for sub in subs:
-            if ((self.check_timer - subs[sub]['created']) > self.timelimit) and (not subs[sub]['archived']):
+            if ((self.check_timer - subs[sub]['created']) > self.timelimit) and (not subs[sub]['archived']) and (self.flair_id != subs[sub]['flair_id']):
                 if subs[sub]['locked']:
                     continue
                 else:
@@ -59,9 +59,12 @@ class Post_Bot():
 
     def flair_subs(self, sub_list):
         """Simply goes through each submission and flairs them with the flair_id setup in config."""
-        for sub in sub_list:
-            self.reddit.submission(sub).flair.select(self.flair_id)
-        return print('Done.')
+        if not sub_list:
+            return print('Your subreddit has no submissions that need to be flaired.')
+        else:
+            for sub in sub_list:
+                self.reddit.submission(sub).flair.select(self.flair_id)
+            return print('Done.')
 
 
 
