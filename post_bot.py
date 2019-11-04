@@ -40,6 +40,7 @@ class Post_Bot():
         self.t_type = response2.json()['token_type']
 
     def grab_posts(self):
+        """Grabs all posts for the subreddit and puts their created_utc, archived status, locked status into a dictionary self.subs categorized under their post.id"""
         for post in self.reddit.subreddit(self.subreddit).new(limit=1000):
             post_time = datetime.utcfromtimestamp(int(post.created_utc)).strftime('%Y-%m-%d %H:%M:%S')
             post_time = datetime.strptime(post_time, '%Y-%m-%d %H:%M:%S')
@@ -47,6 +48,7 @@ class Post_Bot():
         return self.subs
 
     def return_subs(self, subs):
+        """Takes a list with a datetime object under 'created' and compares it to datetime.utcnow() and the timedelta of 1 week and returns a new list of that comparison."""
         for sub in subs:
             if ((self.check_timer - subs[sub]['created']) > self.timelimit) and (not subs[sub]['archived']):
                 if subs[sub]['locked']:
@@ -56,6 +58,7 @@ class Post_Bot():
         return self.need_flair
 
     def flair_subs(self, sub_list):
+        """Simply goes through each submission and flairs them with the flair_id setup in config."""
         for sub in sub_list:
             self.reddit.submission(sub).flair.select(self.flair_id)
         return print('Done.')
