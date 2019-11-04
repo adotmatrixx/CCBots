@@ -17,7 +17,7 @@ FLAIR_ID flair-template-id
 ```
 
 3. Hit file and select save.
-4. Now when you run the bot, it will check at the time it is ran if the posts that are on your subreddit were posted more than a hour ago and lock them.
+4. Now when you run the bot, it will check at the time it is ran if the posts that are on your subreddit were posted more than one week ago and flair them.
 
 ### Encountered a bug?
 **Please submit an issue on this page.**
