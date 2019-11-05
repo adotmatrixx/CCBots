@@ -1,5 +1,5 @@
 # PostLockBot
- A bot that locks posts on a subreddit after 1 hour has passed.
+A bot that will flair posts as expired for /r/efreebies after 1 week has passed.
 
 ## Configuring the bot to your needs!
 
