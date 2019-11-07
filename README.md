@@ -14,10 +14,20 @@ SECRET= secret_key
 TIMELIMIT= 1
 SUBREDDIT= subreddit
 FLAIR_ID flair-template-id
+COMMAND=
 ```
-
 3. Hit file and select save.
 4. Now when you run the bot, it will check at the time it is ran if the posts that are on your subreddit were posted more than one week ago and flair them.
+
+### Command - How does it work?
+Example
+```
+COMMAND=!expired
+```
+Reddit user replies to on a deal with, '!expired', the bot will then accurately flair that post as expired on next run.
+
+If reddit user replies to a deal with, 'this deal has !expired', the bot WILL NOT pick up the post to be flaired as expired.
+
 
 ### Encountered a bug?
 **Please submit an issue on this page.**
