@@ -1,4 +1,5 @@
-# PostLockBot
+# PostLockBot - Please use the friendly DealExpiredBot instead!
+## https://github.com/AkitotheExiled/DealExpiredBot
 A bot that will flair posts as expired for /r/efreebies after 1 week has passed.
 
 ## Configuring the bot to your needs!
